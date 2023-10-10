@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Time Converter</title>
+    <style>
+        body {
+            background: #ace1e2;
+            display: flex;
+            justify-content: center;
+        }
+
+        .box {
+            background: #ace1e2;
+            display: flex-column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <h2>K-ways Timezones</h2>
+        <div class="box">
+            <div>
+                <h3 id="display"></h3>
+                <p id="zone"></p>
+            </div>
+            <div class="customTimes">
+                <input type="text" placeholder="Enter time (HH:MM:SS)" id="customTime" />
+                <p id="result"></p>
+            </div>
+            <div class="buttons">
+                <select id="zoneOptions" name="zoneOptions">
+                    <option value="UTC">UTC</option>
+                    <option value="Asia/Kolkata">IST</option>
+                    <option value="Pacific/Apia">SST</option>
+                    <option value="America/New_York">EST</option>
+                </select>
+                <button type="button" id="convert">
+                    Convert
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const mainframe = document.getElementById("display");
+        const mainframeZone = document.getElementById("zone");
+        const customInput = document.getElementById("customTime");
+        const zoneOptions = document.getElementById("zoneOptions");
+        const convertButton = document.getElementById("convert");
+        const result = document.getElementById("result");
+
+        const updateTime = () => {
+            const d = new Date();
+            const text = d.toLocaleTimeString();
+            mainframe.textContent = text;
+            mainframeZone.textContent = new Date().toTimeString().slice(8);
+        };
+
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        convertButton.addEventListener("click", () => {
+            const customTime = customInput.value;
+            const selectedTimezone = zoneOptions.value;
+
+            if (customTime && selectedTimezone) {
+                const customDate = new Date();
+                const [hours, minutes] = customTime.split(":");
+                customDate.setHours(hours);
+                customDate.setMinutes(minutes);
+                // customDate.setSeconds(seconds);
+
+                const options = { timeZone: selectedTimezone };
+                const convertedTime = customDate.toLocaleTimeString(undefined, options);
+                result.textContent = convertedTime;
+                mainframeZone.textContent = convertedTime;
+                mainframeZone.textContent = selectedTimezone;
+            } else {
+                alert("Please enter a custom time and select a timezone.");
+            }
+        });
+    </script>
+</body>
+
+</html>
