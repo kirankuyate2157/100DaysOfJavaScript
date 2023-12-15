@@ -6,6 +6,9 @@ import cookieParser from "cookie-parser";
 
 dotenv.config();
 
+//routers
+import UserRouter from "./routes/user.route.js"
+
 const app = express();
 
 
@@ -18,7 +21,8 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));  //url data unde
 app.use(express.static("public")) //store file direct on server for public access
 app.use(cookieParser())  //cookie  set get operations
 
-
+//routes
+app.use("/api/v1/users", UserRouter);
 
 
 

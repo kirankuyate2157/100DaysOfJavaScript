@@ -1,5 +1,7 @@
-const asyncHandler = (requestHandler) = (req, res, next) => {
-    Promise.resolve(requestHandler(req, res, next)).catch((error) => next(error));
+const asyncHandler = (requestHandler) => {
+    return (req, res, next) => {
+        Promise.resolve(requestHandler(req, res, next)).catch((error) => next(error))
+    }
 }
 // 👆🏻 similar works middlewares then  next then middleware like .. simple common function
 // const asyncHandler = (fn) => async () => {
