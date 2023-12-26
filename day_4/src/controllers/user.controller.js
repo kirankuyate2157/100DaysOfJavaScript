@@ -305,6 +305,80 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
     );
 });
 
+const getUserChannelProfile = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+  if (!username?.trim()) {
+    throw new ApiError(400, "username is missing 🫠");
+  }
+
+  //aggregation pipelines for find relation and getting exact data pipelines in such word getting method return data
+  const channel = await User.aggregate([
+    {
+      $match: { username: username?.toLowerCase() },
+    },
+    {
+      // looking for data currently in User so from subscription Model with referee of user id  it-self and user is a channel itself so  channel name in short finding doc with channel name  for counting subscribers i.e., number of channels in docs  that much subscribers
+      $lookup: {
+        from: "subscriptions",
+        localField: "_id",
+        foreignField: "channel",
+        as: "subscribers",
+      },
+    },
+    //looking for data currently in User so from subscription Model with user id it-self and subscriber is user  so counting that subscribed user to he to how many doc with it name is appearing for count InShort count of user in docs means that channels he has subscribed to..
+    {
+      $lookup: {
+        from: "subscriptions",
+        localField: "_id",
+        foreignField: "subscriber",
+        as: "subscribedTo",
+      },
+    },
+    //adding new filed for sending data to subscribers count in simple numbers added filed in response count and size if method  which find count of docs in channels filtered as per that subscribers and subscribeTo and for current channel is subscriber or not  for that Boolean
+    {
+      $addFields: {
+        subscribersCount: {
+          $size: "$subscribers",
+        },
+        channelSubscribedToCount: {
+          $size: "$subscribedTo",
+        },
+        isSubscribed: {
+          $cond: {
+            if: { $in: [req.user?._id, "$subscribers.subscriber"] },
+            then: true,
+            else: false,
+          },
+        },
+      },
+    },
+    // adding in one object all necessary filed and values for only send required data ..
+    {
+      $project: {
+        fullName: 1,
+        username: 1,
+        email: 1,
+        avatar: 1,
+        coverImage: 1,
+        subscribersCount: 1,
+        channelSubscribedToCount: 1,
+        isSubscribed: 1,
+      },
+    },
+  ]);
+
+  console.log(" channel data : ", channel);
+
+  if (!channel?.length) {
+    throw new ApiError(404, "channel does not exists 🫠");
+  }
+  res
+    .status(200)
+    .json(
+      new ApiResponse(200, channel[0], "User channel fetched successfully ✅")
+    );
+});
+
 export {
   registration,
   loginUser,
