@@ -382,17 +382,20 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
 const getWatchHistory = asyncHandler(async (req, res) => {
   const user = await User.aggregate([
     {
+      //find user whom requesting by matching user id
       $match: {
         _id: new mongoose.Types.ObjectId(req.user._id),
       },
     },
     {
+      //in that user find watch history of videos data so get videos by id. of videos from watch history
       $lookup: {
         form: "videos",
         localField: "watchHistory",
         foreignField: "_id",
         as: "watchHistory",
         pipeline: [
+          //pipeline for getting owner data by lookup way and get the name,username, avatar
           {
             $lookup: {
               from: "users",
@@ -401,6 +404,7 @@ const getWatchHistory = asyncHandler(async (req, res) => {
               as: "owner",
               pipeline: [
                 {
+                  //selecting only necessary fields from users
                   $project: {
                     fullName: 1,
                     username: 1,
@@ -411,6 +415,7 @@ const getWatchHistory = asyncHandler(async (req, res) => {
             },
           },
           {
+            //it making simple direct access array data object  from owner array got from above lookup it  videos data + owner field data object
             $addFields: {
               owner: {
                 $first: "$owner",
