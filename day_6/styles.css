@@ -1,0 +1,89 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.container {
+  background-color: #4158d0;
+  background-image: linear-gradient(
+    43deg,
+    #4158d0 0%,
+    #c850c0 46%,
+    #ffcc70 100%
+  );
+
+  font-family: cursive;
+  width: 100%;
+  height: 100vh;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
+}
+.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.title h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+.title p {
+  font-size: 1.2rem;
+  background-color: transparent;
+}
+
+#result {
+  color: #fff;
+  -webkit-text-stroke: 1px #000;
+  text-shadow: 1px 1px 0 #000;
+}
+.box {
+  display: flex;
+  background-color: transparent;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.dices-container {
+  background-color: transparent;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.dice-container {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 10px;
+}
+img {
+  background: transparent;
+  width: 100px;
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+}
+button {
+  padding: 0.6rem 5rem;
+  font-size: 1rem;
+  background-color: #4158d0;
+  background-image: linear-gradient(
+    43deg,
+    #4158d0 0%,
+    #c850c0 46%,
+    #ffcc70 100%
+  );
+  border-color: #ffcc70;
+  border-radius: 8px;
+}
