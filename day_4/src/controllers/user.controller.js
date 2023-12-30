@@ -438,6 +438,38 @@ const getWatchHistory = asyncHandler(async (req, res) => {
     );
 });
 
+const loginGoogleDB = asyncHandler(async (req, res) => {
+  const { _id, email } = req.user.user;
+
+  if (!_id) {
+    throw new ApiError(404, "user does not exist .🫠..");
+  }
+
+  const { accessToken, refreshToken } =
+    await generateAccessAndRefreshTokens(_id);
+
+  const loggedUser = await User.findById(_id).select(
+    "-password -refreshToken "
+  );
+
+  const options = { httpOnly: true, secure: true }; //only modifiable  by server
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+      new ApiResponse(
+        200,
+        { user: loggedUser, accessToken, refreshToken },
+        "user logged in successfully ✅"
+      )
+    );
+});
+
+const googleAuthFail = asyncHandler(async (req, res) => {
+  throw new ApiError(404, "user does not exist .🫠..");
+});
 export {
   registration,
   loginUser,
@@ -450,4 +482,6 @@ export {
   updateUserCoverImage,
   getUserChannelProfile,
   getWatchHistory,
+  loginGoogleDB,
+  googleAuthFail,
 };

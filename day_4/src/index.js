@@ -1,5 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
+import passport from "passport";
+import session from "express-session";
 dotenv.config({
   path: "./.env",
 });
@@ -12,6 +14,18 @@ import UserRouter from "./routes/user.route.js";
 
 const app = express();
 
+// ------- google pass start ------------
+app.use(passport.initialize());
+app.use(
+  session({
+    secret: "your-secret-key",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+app.use(passport.session());
+// ------- google pass end ------------
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN,
