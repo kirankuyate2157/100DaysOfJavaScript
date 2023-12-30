@@ -1,5 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
+import dotenv from "dotenv";
+dotenv.config();
 import {
   registration,
   loginUser,
@@ -41,8 +43,8 @@ router.route("/googlesign").get(
 
 router.route("/current-user").get(
   passport.authenticate("google", {
-    successRedirect: "http://localhost:8080/api/v1/users/success",
-    failureRedirect: "http://localhost:8080/api/v1/users/fail",
+    successRedirect: `${process.env.BASE_URL}/api/v1/users/success`,
+    failureRedirect: `${process.env.BASE_URL}/api/v1/users/fail`,
   })
 );
 router.route("/success").get(loginGoogleDB);
