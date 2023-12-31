@@ -30,17 +30,15 @@ router.route("/register").post(
   registration
 );
 router.route("/login").post(loginUser);
-//googlesSign
-router.route("/googlesign").get(
+//-------- googles OAuth 2.0 -----------------
+router.route("/google-auth").get(
   passport.authenticate("google", {
     scope: [
       "https://www.googleapis.com/auth/userinfo.profile",
       "https://www.googleapis.com/auth/userinfo.email",
     ],
-  }),
-  loginGoogleDB
+  })
 );
-
 router.route("/current-user").get(
   passport.authenticate("google", {
     successRedirect: `${process.env.BASE_URL}/api/v1/users/success`,
@@ -49,6 +47,7 @@ router.route("/current-user").get(
 );
 router.route("/success").get(loginGoogleDB);
 router.route("/fail").get(googleAuthFail);
+
 //secured routes
 router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/refresh-token").post(refreshTokenToAccessToken);
