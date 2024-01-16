@@ -12,7 +12,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
     user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false }); //i validating it  no need to again validation so .
     return { accessToken, refreshToken };
-  } catch (error) {}
+  } catch (error) { }
 };
 
 const registration = asyncHandler(async (req, res) => {
@@ -149,7 +149,10 @@ const logoutUser = asyncHandler(async (req, res) => {
   User.findByIdAndUpdate(
     req.user._id,
     {
-      $set: { refreshToken: undefined },
+      // $set: { refreshToken: undefined },
+      $unset: {
+        refreshToken: 1 //this will removes refreshToken from document 
+      }
     },
     { new: true }
   );
