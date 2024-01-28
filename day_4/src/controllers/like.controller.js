@@ -108,7 +108,7 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
 
 const getLikedVideos = asyncHandler(async (req, res) => {
   //TODO: get all liked videos
-  const videos = await Like.aggregate([
+  const likes = await Like.aggregate([
     {
       $match: {
         likedBy: new mongoose.Types.ObjectId(req.user._id),
@@ -158,7 +158,7 @@ const getLikedVideos = asyncHandler(async (req, res) => {
     .json(
       new ApiResponse(
         200,
-        videos[0].video,
+        likes[0].likedVideos,
         "watch history fetched successfully ✅"
       )
     );

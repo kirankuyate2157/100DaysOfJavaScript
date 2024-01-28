@@ -18,9 +18,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
   //TODO: get all videos based on query, sort, pagination
   try {
     // find user in db
-    const user = await User.findById({
-      _id: userId,
-    });
+    const user = await User.findById(userId);
 
     if (!user) {
       throw new ApiError(404, "user not found");
