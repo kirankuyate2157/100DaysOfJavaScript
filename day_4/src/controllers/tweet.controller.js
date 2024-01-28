@@ -32,7 +32,8 @@ const createTweet = asyncHandler(async (req, res) => {
 
 const getUserTweets = asyncHandler(async (req, res) => {
   // TODO: get user tweets
-  const tweet = await tweet.findById(req?.user?._id);
+  const { userId } = req.params;
+  const tweet = await tweet.findById(userId);
   if (!tweet) {
     throw new ApiError(
       500,
