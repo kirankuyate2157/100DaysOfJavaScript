@@ -7,7 +7,7 @@ import {app} from './app.js'
 import connectDB from "./db/mongoDB.js";
 
 
-app.listen(process.env.PORT || 8000, () => {
+app.listen(process.env.PORT || 8080, () => {
   connectDB();
   console.log(
     "listening on port http://localhost:" + process.env.PORT + "  🏃🏻💨 🚀"
