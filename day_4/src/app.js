@@ -44,7 +44,7 @@ import dashboardRouter from "./routes/dashboard.routes.js";
 import paymentRouter from "./routes/payment.routes.js";
 import s3Router from "./routes/s3.routes.js";
 import locationRouter from "./routes/location.routes.js";
-
+import streamRouter from "./routes/stream.routes.js"
 //routes declaration
 app.use("/api/v1/healthcheck", healthCheckRouter);
 app.use("/api/v1/users", userRouter);
@@ -58,7 +58,7 @@ app.use("/api/v1/dashboard", dashboardRouter);
 app.use("/api/v1/payment", paymentRouter);
 app.use("/api/v1/s3", s3Router);
 app.use("/api/v1/location", locationRouter);
-
+app.use("/api/v1/stream", streamRouter)
 app.get("/", (req, res) => {
   res.send("hey i back end api started now testing .... 🍻⏳");
 });

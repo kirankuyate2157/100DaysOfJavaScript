@@ -32,7 +32,7 @@ const generateUrl = asyncHandler(async (req, res) => {
   const url = await getSignedUrl(s3Client, command, { expiresIn: 180 });
 
   // Return the signed URL to the client using ApiResponse format
-  res.status(200).json(new ApiResponse(200, {  url }, "Signed URL generated successfully"));
+  res.status(200).json(new ApiResponse(200, { url }, "Signed URL generated successfully"));
 });
 
 // Function to generate a signed URL for downloading a file from S3
@@ -95,4 +95,4 @@ const deleteFile = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, {}, `File ${fileName} deleted successfully`));
 });
 
-export { generateUrl, getDownloadUrl, deleteFile };
+export { generateUrl, getDownloadUrl, deleteFile};
